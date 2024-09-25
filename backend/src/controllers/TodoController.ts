@@ -49,7 +49,6 @@ const updateTodo = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const { name } = req.body;
-    console.log(req)
     const todo: Todo | undefined = await updateTodoRepository(id, name);
     if (todo) {
       res.json(todo).status(200);
