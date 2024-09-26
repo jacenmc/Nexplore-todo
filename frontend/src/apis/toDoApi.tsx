@@ -12,9 +12,8 @@ export async function getToDoList(): Promise<toDoItemI[]> {
     };
 
     return await fetch(url, options)
-        .then((res) => res.json())
-        .then((json) => json)
-        .catch((err) => console.error("error:" + err));
+        .then((res) => checkResponse(res).json())
+        .catch((err) => handleError(err));
 }
 
 export async function createToDoItem(name:string): Promise<toDoItemI[]> {
@@ -32,9 +31,8 @@ export async function createToDoItem(name:string): Promise<toDoItemI[]> {
     };
 
     return await fetch(url, options)
-        .then((res) => res.json())
-        .then((json) => json)
-        .catch((err) => console.error("error:" + err));
+        .then((res) => checkResponse(res).json())
+        .catch((err) => handleError(err));
 }
 
 export async function updateToDoItem(id:string, name: string): Promise<toDoItemI[]> {
@@ -52,9 +50,8 @@ export async function updateToDoItem(id:string, name: string): Promise<toDoItemI
     };
 
     return await fetch(url, options)
-        .then((res) => res.json())
-        .then((json) => json)
-        .catch((err) => console.error("error:" + err));
+        .then((res) => checkResponse(res).json())
+        .catch((err) => handleError(err));
 }
 
 export async function deleteToDoItem(id:string) {
@@ -64,6 +61,18 @@ export async function deleteToDoItem(id:string) {
     };
 
     return await fetch(url, options)
-        .then((res) => res)
-        .catch((err) => console.error("error:" + err));
+        .then((res) => checkResponse(res))
+        .catch((err) => handleError(err));
+}
+
+function handleError(err : any) {
+    alert("Something went wrong, please contact administrator. (console log)");
+    console.error(err)
+}
+function checkResponse(res : Response) {
+    if(!res.ok){
+        alert(`${res.status} ${res.statusText} (console log)`)
+        console.error(res)
+    }
+    return res;
 }
