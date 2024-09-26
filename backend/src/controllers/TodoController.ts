@@ -25,7 +25,7 @@ const getTodo = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     if(isNaN(id)) {
-      res.status(400).json({ error: 'Request Error' });
+      return res.status(400).json({ error: 'Request Error' });
     }
     let todo = await getTodoById(id);
     todo = todo || {};
@@ -39,7 +39,7 @@ const createTodo = async (req: Request, res: Response) => {
   try {
     const { name } = req.body;
     if(typeof name !== 'string') {
-      res.status(400).json({ error: 'Request Error' });
+      return res.status(400).json({ error: 'Request Error' });
     }
     const todo: Todo = await createTodoRepository(name);
     res.json(todo).status(201);
@@ -53,7 +53,7 @@ const updateTodo = async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     const { name } = req.body;
     if(isNaN(id) || typeof name !== 'string') {
-      res.status(400).json({ error: 'Request Error' });
+      return res.status(400).json({ error: 'Request Error' });
     }
     const todo: Todo | undefined = await updateTodoRepository(id, name);
     if (todo) {
@@ -71,7 +71,7 @@ const deleteTodo = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     if(isNaN(id)) {
-      res.status(400).json({ error: 'Request Error' });
+      return res.status(400).json({ error: 'Request Error' });
     }
     await deleteTodoRepository(id);
     res.status(204).send();
