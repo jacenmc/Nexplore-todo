@@ -3,14 +3,15 @@ import db from '../db'
 import { Todo } from '../models/Todo'
 
 export const getTodos = async (
-  limit: number,
-  offset: number
+  // limit: number,
+  // offset: number
 ): Promise<Todo[]> => {
   try {
-    const res = await db.query('SELECT * FROM todos LIMIT $1 OFFSET $2;', [
-      limit,
-      offset,
-    ])
+    // const res = await db.query('SELECT * FROM todos LIMIT $1 OFFSET $2;', [
+    //   limit,
+    //   offset,
+    // ])
+    const res = await db.query('SELECT * FROM todos;')
     return res.rows
   } catch (error) {
     console.error('Error executing query', error)

@@ -10,10 +10,11 @@ import { Todo } from '../models/Todo';
 
 const getAllTodos = async (req: Request, res: Response) => {
   try {
-    const limit = parseInt(req.query.limit as string) || 10; 
-    const offset = parseInt(req.query.offset as string) || 0;
+    // const limit = parseInt(req.query.limit as string) || 10; 
+    // const offset = parseInt(req.query.offset as string) || 0;
 
-    const todos = await getTodos(limit, offset);
+    // const todos = await getTodos(limit, offset);
+    const todos = await getTodos();
     res.status(200).json(todos);
   } catch (error) {
     console.error('Error fetching todos:', error);
