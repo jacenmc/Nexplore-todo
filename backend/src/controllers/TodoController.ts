@@ -24,12 +24,12 @@ const getAllTodos = async (req: Request, res: Response) => {
 const getTodo = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    const todo = await getTodoById(id);
-    if (todo !== undefined) {
-      res.json(todo).status(200);
-    } else {
-      res.status(404).json({ error: 'Todo not found' });
+    if(isNaN(id)) {
+      res.status(400).json({ error: 'Request Error' });
     }
+    let todo = await getTodoById(id);
+    todo = todo || {};
+    res.json(todo).status(200);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -38,6 +38,9 @@ const getTodo = async (req: Request, res: Response) => {
 const createTodo = async (req: Request, res: Response) => {
   try {
     const { name } = req.body;
+    if(typeof name !== 'string') {
+      res.status(400).json({ error: 'Request Error' });
+    }
     const todo: Todo = await createTodoRepository(name);
     res.json(todo).status(201);
   } catch (error) {
@@ -49,6 +52,9 @@ const updateTodo = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const { name } = req.body;
+    if(isNaN(id) || typeof name !== 'string') {
+      res.status(400).json({ error: 'Request Error' });
+    }
     const todo: Todo | undefined = await updateTodoRepository(id, name);
     if (todo) {
       res.json(todo).status(200);
@@ -64,6 +70,9 @@ const updateTodo = async (req: Request, res: Response) => {
 const deleteTodo = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
+    if(isNaN(id)) {
+      res.status(400).json({ error: 'Request Error' });
+    }
     await deleteTodoRepository(id);
     res.status(204).send();
   } catch (error) {
